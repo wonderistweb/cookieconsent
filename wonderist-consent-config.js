@@ -48,7 +48,7 @@
   // Normal flow — show consent banner
   window.silktideCookieBannerManager.updateCookieBannerConfig({
     background: { showBackground: true },
-    cookieIcon: { position: "bottom-left", colorScheme: "light" },
+    cookieIcon: { colorScheme: "light" },
 
     cookieTypes: [
       {
@@ -101,7 +101,7 @@
 
     text: {
       banner: {
-        description: "<h4>Your Privacy</h4><p>We use cookies to improve your experience, personalize content, and analyze traffic. You can manage your preferences anytime.</p>",
+        description: "<h3>Cookie Preferences</h3><p>This website uses cookies, pixels, and other tracking technologies to personalize content and analyze how our sites are used. We disclose data about website users to third parties so we can target our ads to you on other websites, and those third parties may use that data for their own purposes. For more information on how we collect, use, and disclose this information, please review our <a href=\"/privacy-policy\" target=\"_blank\">Privacy Policy</a>. Continued use of this site means you consent to our <a href=\"/privacy-policy#cookies\" target=\"_blank\">Cookie Policy</a>. To manage your cookie preferences, please <a href=\"#\" data-stcm-open-preferences=\"true\">click here</a>.</p>",
         acceptAllButtonText: "Accept All",
         acceptAllButtonAccessibleLabel: "Accept all cookies",
         rejectNonEssentialButtonText: "Reject Non-Essential",
@@ -117,7 +117,7 @@
       }
     },
 
-    position: { banner: "bottom-left" },
+    position: { banner: "bottomLeft" },
 
     onBackdropOpen: function () {
       document.body.style.overflow = "hidden";
