@@ -1,28 +1,22 @@
-// ─── PART 2: FOOTER CODE (place AFTER the GTM snippet) ──────
-
-// Silktide CDN script should already be loaded:
-// <script src="https://cdn.jsdelivr.net/gh/wonderistweb/cookieconsent@main/silktide-consent-manager.js"></script>
+// WONDERIST CONSENT CONFIG
+// Loaded after silktide-consent-manager.js via jsdelivr CDN
 
 (function () {
 
-  // Helper: openSilktidePreferences (unchanged)
   function openSilktidePreferences() {
     var bannerPrefsBtn = document.querySelector("#silktide-banner .preferences");
     if (bannerPrefsBtn) {
       bannerPrefsBtn.click();
       return true;
     }
-
     var iconBtn = document.querySelector("#silktide-cookie-icon");
     if (iconBtn) {
       iconBtn.click();
       return true;
     }
-
     return false;
   }
 
-  // Helper: checkSilktide (unchanged)
   function checkSilktide() {
     if (!window.silktideCookieBannerManager ||
         typeof window.silktideCookieBannerManager.updateCookieBannerConfig !== "function") {
@@ -33,28 +27,25 @@
 
   if (!checkSilktide()) return;
 
-  // If GPC is active, auto-reject and skip the banner entirely
+  // GPC active — auto-reject, hide banner, done
   if (navigator.globalPrivacyControl === true) {
-    // Store rejection in localStorage so Silktide knows not to show the banner
     localStorage.setItem("silktideCookieChoice_necessary", "true");
     localStorage.setItem("silktideCookieChoice_analytics", "false");
     localStorage.setItem("silktideCookieChoice_advertising", "false");
     localStorage.setItem("silktideCookieBanner_InitialChoice", "1");
 
-    // Push rejection events to dataLayer for any GTM triggers
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: "consent_rejected_analytics" });
     window.dataLayer.push({ event: "consent_rejected_advertising" });
 
-    // Initialize Silktide with banner hidden (it reads localStorage)
     window.silktideCookieBannerManager.updateCookieBannerConfig({
       showBanner: false
     });
 
-    return; // Done — no banner, everything denied
+    return;
   }
 
-  // Normal flow: show the consent banner
+  // Normal flow — show consent banner
   window.silktideCookieBannerManager.updateCookieBannerConfig({
     background: { showBackground: true },
     cookieIcon: { position: "bottom-left", colorScheme: "light" },
@@ -64,13 +55,13 @@
         id: "necessary",
         name: "Necessary",
         description: "<p>These cookies are essential for the website to function. They cannot be switched off.</p>",
-        required: true,
+        required: true
       },
       {
         id: "analytics",
         name: "Analytics",
         description: "<p>These cookies help us improve the site by tracking which pages are most popular and how visitors move around the site.</p>",
-        defaultValue: false, // CHANGED from true → false (deny by default)
+        defaultValue: false,
         onAccept: function () {
           gtag("consent", "update", { analytics_storage: "granted" });
           window.dataLayer = window.dataLayer || [];
@@ -86,7 +77,7 @@
         id: "advertising",
         name: "Advertising",
         description: "<p>These cookies provide extra features and personalization to improve your experience. They may be set by us or by partners whose services we use.</p>",
-        defaultValue: false, // CHANGED from true → false (deny by default)
+        defaultValue: false,
         onAccept: function () {
           gtag("consent", "update", {
             ad_storage: "granted",
@@ -108,8 +99,6 @@
       }
     ],
 
-    // ── Banner text config ──
-    // (Preserve your existing text customization below)
     text: {
       banner: {
         description: "<h4>Your Privacy</h4><p>We use cookies to improve your experience, personalize content, and analyze traffic. You can manage your preferences anytime.</p>",
@@ -130,7 +119,6 @@
 
     position: { banner: "bottom-left" },
 
-    // ── Callbacks ──
     onBackdropOpen: function () {
       document.body.style.overflow = "hidden";
     },
@@ -140,5 +128,3 @@
   });
 
 })();
-
-// ─── END PART 2 ─────────────────────────────────────────────
