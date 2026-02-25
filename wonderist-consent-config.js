@@ -25,9 +25,7 @@
     return true;
   }
 
-  if (!checkSilktide()) return;
-
-  // Handle [data-stcm-open-preferences] click to reopen the modal
+  // Handle [data-stcm-open-preferences] — always register, regardless of Silktide load state
   document.addEventListener("click", function (e) {
     var trigger = e.target.closest("[data-stcm-open-preferences]");
     if (trigger) {
@@ -35,6 +33,8 @@
       openSilktidePreferences();
     }
   });
+
+  if (!checkSilktide()) return;
 
   // GPC active — auto-reject, hide banner, done
   if (navigator.globalPrivacyControl === true) {
