@@ -27,6 +27,15 @@
 
   if (!checkSilktide()) return;
 
+  // Handle [data-stcm-open-preferences] click to reopen the modal
+  document.addEventListener("click", function (e) {
+    var trigger = e.target.closest("[data-stcm-open-preferences]");
+    if (trigger) {
+      e.preventDefault();
+      openSilktidePreferences();
+    }
+  });
+
   // GPC active — auto-reject, hide banner, done
   if (navigator.globalPrivacyControl === true) {
     localStorage.setItem("silktideCookieChoice_necessary", "true");
@@ -124,15 +133,6 @@
     },
     onBackdropClose: function () {
       document.body.style.overflow = "";
-    }
-  });
-
-  // Handle [data-stcm-open-preferences] click to reopen the modal
-  document.addEventListener("click", function (e) {
-    var trigger = e.target.closest("[data-stcm-open-preferences]");
-    if (trigger) {
-      e.preventDefault();
-      openSilktidePreferences();
     }
   });
 
