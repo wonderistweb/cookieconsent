@@ -25,15 +25,6 @@
     return true;
   }
 
-  // Handle [data-stcm-open-preferences] — always register, regardless of Silktide load state
-  document.addEventListener("click", function (e) {
-    var trigger = e.target.closest("[data-stcm-open-preferences]");
-    if (trigger) {
-      e.preventDefault();
-      openSilktidePreferences();
-    }
-  });
-
   if (!checkSilktide()) return;
 
   // GPC active — auto-reject, hide banner, done
