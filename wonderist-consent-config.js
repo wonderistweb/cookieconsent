@@ -127,4 +127,13 @@
     }
   });
 
+  // Handle [data-stcm-open-preferences] click to reopen the modal
+  document.addEventListener("click", function (e) {
+    var trigger = e.target.closest("[data-stcm-open-preferences]");
+    if (trigger) {
+      e.preventDefault();
+      openSilktidePreferences();
+    }
+  });
+
 })();
